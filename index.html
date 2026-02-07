@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Order Hub | Permanent Multi-Year</title>
+    <title>Order Hub | Ultra Visible</title>
     <style>
         :root {
             --bg: #0f172a;
@@ -11,144 +11,155 @@
             --accent: #38bdf8;
             --profit: #4ade80;
             --danger: #ef4444;
-            --text: #f8fafc;
-            --text-dim: #94a3b8;
+            --text: #ffffff;
+            --text-dim: #cbd5e1;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            padding: 10px;
-            padding-bottom: 140px;
+            padding: 12px;
+            padding-bottom: 160px;
             display: flex;
             justify-content: center;
         }
 
         .container { width: 100%; max-width: 500px; }
 
+        h1 { font-size: 1.8rem; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+        /* Highly Visible Search */
+        .search-box {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 16px;
+            background: #1e293b;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+        }
+
         .tabs {
             display: flex;
             background: var(--card);
-            padding: 5px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #334155;
+            padding: 6px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            border: 1px solid #475569;
         }
 
         .tab {
             flex: 1;
-            padding: 12px;
+            padding: 14px;
             text-align: center;
             cursor: pointer;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.85rem;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--text-dim);
         }
 
         .tab.active { background: var(--accent); color: #0f172a; }
 
+        .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+
         .stat-card {
             background: var(--card);
-            padding: 15px;
-            border-radius: 16px;
-            border: 1px solid #334155;
+            padding: 18px;
+            border-radius: 18px;
+            border: 1px solid #475569;
             text-align: center;
-            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
 
-        .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-
-        .stat-card h3 { margin: 0; font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; }
-        .stat-card .val { font-size: 1.1rem; font-weight: bold; margin: 5px 0; }
+        .stat-card h3 { margin: 0; font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        .stat-card .val { font-size: 1.4rem; font-weight: 900; margin: 8px 0; color: #fff; }
 
         .input-panel {
             background: var(--card);
-            padding: 20px;
-            border-radius: 20px;
-            border: 1px solid #334155;
-            margin-bottom: 20px;
+            padding: 22px;
+            border-radius: 24px;
+            border: 1px solid #475569;
+            margin-bottom: 25px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         input, select {
             background: #0f172a;
-            border: 1px solid #334155;
+            border: 1px solid #475569;
             color: white;
-            padding: 14px;
+            padding: 15px;
             border-radius: 12px;
-            font-size: 16px;
-            outline: none;
+            font-size: 1rem;
+            font-weight: 600;
         }
-
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
         .btn-add {
             background: var(--accent);
             color: #0f172a;
             border: none;
-            font-weight: 800;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 1rem;
+            font-weight: 900;
+            padding: 18px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
         }
 
         .list-item {
             background: var(--card);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-            border-left: 4px solid var(--accent);
+            flex-direction: column;
+            padding: 18px;
+            border-radius: 18px;
+            margin-bottom: 12px;
+            border-left: 6px solid var(--accent);
+            gap: 10px;
         }
 
-        .item-info b { display: block; font-size: 0.95rem; }
-        .item-info span { font-size: 0.7rem; color: var(--text-dim); }
+        .item-main { display: flex; justify-content: space-between; align-items: flex-start; }
+        .item-info b { display: block; font-size: 1.1rem; color: #fff; margin-bottom: 4px; }
+        .item-info span { font-size: 0.8rem; color: var(--text-dim); font-weight: 600; }
         
         .item-money { text-align: right; }
-        .item-money .profit { color: var(--profit); font-weight: bold; display: block; font-size: 0.85rem; }
-        .item-money .cost { font-size: 0.7rem; color: var(--text-dim); }
+        .item-money .profit { color: var(--profit); font-weight: 900; display: block; font-size: 1.1rem; }
+        .item-money .cost-sub { font-size: 0.8rem; color: var(--text-dim); font-weight: 600; }
 
-        .btn-del { color: var(--danger); background: none; border: none; font-size: 1.1rem; margin-left: 10px; }
+        .item-actions { display: flex; gap: 10px; align-items: center; border-top: 1px solid #334155; pt: 10px; margin-top: 5px; padding-top: 10px;}
+        .action-link { background: #334155; color: var(--accent); padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 0.75rem; font-weight: bold; }
+        .item-img-preview { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; border: 1px solid var(--accent); }
+
+        .btn-del { color: var(--danger); background: none; border: none; font-size: 1.4rem; font-weight: bold; padding: 5px; }
         
         .global-footer {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             background: #1e293b;
-            border-top: 2px solid var(--accent);
-            padding: 12px 15px;
-            padding-bottom: 25px;
+            border-top: 3px solid var(--accent);
+            padding: 15px;
+            padding-bottom: 30px;
             z-index: 100;
         }
 
-        .footer-stats {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            margin-top: 10px;
-        }
+        .footer-stats { display: flex; justify-content: space-around; margin-top: 12px; }
+        .footer-stats div span { display: block; font-size: 0.65rem; color: var(--accent); font-weight: 800; text-transform: uppercase; }
+        .footer-stats div b { font-size: 1.2rem; color: white; font-weight: 900; }
 
-        .footer-stats div span { display: block; font-size: 0.55rem; color: var(--text-dim); text-transform: uppercase; }
-        .footer-stats div b { font-size: 1rem; color: white; }
-
-        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .btn-ctrl { background: #334155; color: white; border: none; padding: 10px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; }
-        .btn-export { background: var(--profit); color: #0f172a; grid-column: 1 / -1; margin-top: 5px; }
-
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-ctrl { background: #334155; color: white; border: none; padding: 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 800; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1 style="margin-bottom: 5px;">📦 Order Hub</h1>
-    <p style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 20px;">Safe Storage • Multi-Currency Tracking</p>
+    <h1>📦 Order Hub</h1>
+
+    <input type="text" id="search-input" class="search-box" placeholder="🔍 Search Name or Tag..." onkeyup="app.render()">
 
     <div class="tabs">
         <div id="tab-usd" class="tab active" onclick="app.setMode('USD')">USD ONLY</div>
@@ -158,23 +169,29 @@
     <div id="dashboard-root"></div>
     
     <div class="input-panel">
-        <h2 id="form-title" style="margin:0; font-size: 0.9rem; color: var(--accent);">+ New USD Order</h2>
+        <h2 id="form-title" style="margin:0; font-size: 1rem; color: var(--accent);">+ New USD Order</h2>
         <input type="text" id="in-name" placeholder="Item Name">
+        <input type="url" id="in-link" placeholder="Product URL (Optional)">
+        
+        <div style="display:flex; flex-direction:column; gap:5px;">
+            <label style="font-size:0.7rem; color:var(--text-dim); font-weight:bold;">📸 Product Photo (Optional):</label>
+            <input type="file" id="in-img" accept="image/*" style="font-size:0.8rem;">
+        </div>
+
         <div class="row">
-            <input type="text" id="in-tag" placeholder="Tag">
+            <input type="text" id="in-tag" placeholder="Tag (A1)">
             <input type="number" id="in-rate" placeholder="Rate" value="1500">
         </div>
         <div class="row">
-            <input type="number" id="in-buy" placeholder="Buy Price ($)">
+            <input type="number" id="in-buy" placeholder="Buy $">
             <input type="number" id="in-sell" placeholder="Sell Price">
         </div>
         <input type="date" id="in-oDate">
-        <button class="btn-add" onclick="app.addOrder()">Save Order</button>
+        <button class="btn-add" onclick="app.addOrder()">SAVE ORDER</button>
         
         <div class="controls">
-            <button class="btn-ctrl" onclick="app.backup()">📥 JSON Backup</button>
+            <button class="btn-ctrl" onclick="app.backup()">📥 Backup</button>
             <button class="btn-ctrl" onclick="document.getElementById('file-upload').click()">📤 Restore</button>
-            <button class="btn-ctrl btn-export" onclick="app.exportExcel()">📄 Export to Excel (CSV)</button>
             <input type="file" id="file-upload" style="display:none" onchange="app.restore(event)">
         </div>
     </div>
@@ -183,7 +200,7 @@
 </div>
 
 <div class="global-footer">
-    <select id="footer-period-filter" class="month-selector-footer" style="width:100%; padding:10px; background:#0f172a; border-radius:10px; color:var(--accent); font-weight:bold; font-size:0.85rem;" onchange="app.render()">
+    <select id="footer-period-filter" style="width:100%; padding:12px; background:#0f172a; border:1px solid var(--accent); border-radius:10px; color:white; font-weight:900; font-size:0.9rem;" onchange="app.render()">
         <option value="all">View: All Time Totals</option>
     </select>
     <div class="footer-stats" id="footer-stats-root"></div>
@@ -191,7 +208,7 @@
 
 <script>
 const app = {
-    orders: JSON.parse(localStorage.getItem('smart_wallet_permanent')) || [],
+    orders: JSON.parse(localStorage.getItem('smart_wallet_v4')) || [],
     mode: 'USD',
 
     setMode(m) {
@@ -200,18 +217,26 @@ const app = {
         document.getElementById('tab-iqd').className = m === 'IQD' ? 'tab active' : 'tab';
         document.getElementById('form-title').innerText = m === 'USD' ? '+ New USD Order' : '+ New USD to IQD Order';
         document.getElementById('in-sell').placeholder = m === 'USD' ? 'Sell Price ($)' : 'Sell Price (IQD)';
-        document.getElementById('in-rate').style.visibility = m === 'USD' ? 'hidden' : 'visible';
+        document.getElementById('in-rate').parentElement.style.display = m === 'USD' ? 'none' : 'grid';
         this.updatePeriodSelector();
         this.render();
     },
 
-    addOrder() {
+    async addOrder() {
         const name = document.getElementById('in-name').value;
         if (!name) return alert("Enter Name");
+
+        let imgData = "";
+        const imgFile = document.getElementById('in-img').files[0];
+        if (imgFile) {
+            imgData = await this.toBase64(imgFile);
+        }
 
         const order = {
             id: Date.now(),
             name: name,
+            link: document.getElementById('in-link').value || "",
+            img: imgData,
             tag: document.getElementById('in-tag').value || "A1",
             mode: this.mode,
             buyUSD: parseFloat(document.getElementById('in-buy').value) || 0,
@@ -222,11 +247,18 @@ const app = {
 
         this.orders.push(order);
         this.save();
-        ['in-name','in-tag','in-buy','in-sell'].forEach(id => document.getElementById(id).value = '');
+        ['in-name','in-tag','in-buy','in-sell','in-link','in-img'].forEach(id => document.getElementById(id).value = '');
     },
 
+    toBase64: file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    }),
+
     save() {
-        localStorage.setItem('smart_wallet_permanent', JSON.stringify(this.orders));
+        localStorage.setItem('smart_wallet_v4', JSON.stringify(this.orders));
         this.updatePeriodSelector();
         this.render();
     },
@@ -242,33 +274,15 @@ const app = {
         const blob = new Blob([JSON.stringify(this.orders)], {type: "application/json"});
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `HUB_BACKUP_${new Date().toLocaleDateString()}.json`;
-        a.click();
-        alert("Backup saved! Keep this file in your Google Drive or Email.");
-    },
-
-    exportExcel() {
-        if (this.orders.length === 0) return alert("No data to export.");
-        let csv = "Date,Item,Tag,Mode,Buy(USD),Sell,Rate,Profit\n";
-        this.orders.forEach(o => {
-            const profit = (o.mode === 'USD') ? (o.sellVal - o.buyUSD) : (o.sellVal - (o.buyUSD * o.rate));
-            csv += `${o.date},${o.name},${o.tag},${o.mode},${o.buyUSD},${o.sellVal},${o.rate},${profit}\n`;
-        });
-        const blob = new Blob([csv], {type: "text/csv"});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `Orders_Report_${new Date().getFullYear()}.csv`;
+        a.download = `HUB_DATA_${new Date().toISOString().split('T')[0]}.json`;
         a.click();
     },
 
     restore(e) {
         const reader = new FileReader();
         reader.onload = (ev) => {
-            try {
-                this.orders = JSON.parse(ev.target.result);
-                this.save();
-                alert("Data Restored Successfully!");
-            } catch (err) { alert("Error: Invalid Backup File"); }
+            this.orders = JSON.parse(ev.target.result);
+            this.save();
         };
         reader.readAsText(e.target.files[0]);
     },
@@ -292,14 +306,18 @@ const app = {
 
     render() {
         const selectedPeriod = document.getElementById('footer-period-filter').value;
-        const tabFiltered = this.orders.filter(o => {
+        const query = document.getElementById('search-input').value.toLowerCase();
+
+        const filtered = this.orders.filter(o => {
             const d = new Date(o.date);
             const p = `${d.getFullYear()}-${d.getMonth()}`;
-            return o.mode === this.mode && (selectedPeriod === 'all' || p === selectedPeriod);
+            const matchesPeriod = (selectedPeriod === 'all' || p === selectedPeriod);
+            const matchesSearch = o.name.toLowerCase().includes(query) || o.tag.toLowerCase().includes(query);
+            return o.mode === this.mode && matchesPeriod && matchesSearch;
         });
 
         let tabCostUSD = 0, tabProfit = 0;
-        tabFiltered.forEach(o => {
+        filtered.forEach(o => {
             tabCostUSD += o.buyUSD;
             tabProfit += (o.mode === 'USD') ? (o.sellVal - o.buyUSD) : (o.sellVal - (o.buyUSD * o.rate));
         });
@@ -321,19 +339,30 @@ const app = {
                 <div class="stat-card"><h3>Profit</h3><div class="val" style="color:var(--profit)">${this.mode==='USD'?'$':''}${tabProfit.toLocaleString()}</div></div>
             </div>`;
 
-        document.getElementById('list-root').innerHTML = tabFiltered.slice().reverse().map(o => {
+        document.getElementById('list-root').innerHTML = filtered.slice().reverse().map(o => {
             const p = (o.mode === 'USD') ? (o.sellVal - o.buyUSD) : (o.sellVal - (o.buyUSD * o.rate));
-            return `<div class="list-item">
-                <div class="item-info"><b>${o.name}</b><span>#${o.tag} • ${o.date}</span></div>
-                <div style="display:flex; align-items:center">
+            const costLabel = o.mode === 'USD' ? `$${o.buyUSD}` : `${(o.buyUSD * o.rate).toLocaleString()} IQD`;
+            
+            return `
+            <div class="list-item">
+                <div class="item-main">
+                    <div class="item-info">
+                        <b>${o.name}</b>
+                        <span>#${o.tag} • ${o.date}</span>
+                    </div>
                     <div class="item-money">
                         <span class="profit">${o.mode==='USD'?'$':''}${p.toLocaleString()} ${o.mode==='IQD'?'IQD':''}</span>
-                        <span class="cost">$${o.buyUSD} Cost</span>
+                        <span class="cost-sub">Cost: ${costLabel}</span>
                     </div>
+                </div>
+                <div class="item-actions">
+                    ${o.img ? `<img src="${o.img}" class="item-img-preview" onclick="window.open(this.src)">` : ''}
+                    ${o.link ? `<a href="${o.link}" target="_blank" class="action-link">🔗 View Link</a>` : ''}
+                    <div style="flex-grow:1"></div>
                     <button class="btn-del" onclick="app.delete(${o.id})">✕</button>
                 </div>
             </div>`;
-        }).join('') || '<p style="text-align:center; color:var(--text-dim); padding:20px;">No entries.</p>';
+        }).join('') || '<p style="text-align:center; color:var(--text-dim); padding:20px;">No entries found.</p>';
 
         document.getElementById('footer-stats-root').innerHTML = `
             <div><span>Total Spent</span><b>$${gSpent.toLocaleString()}</b></div>
