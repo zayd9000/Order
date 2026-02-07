@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Order Hub | USD-IQD Tracker</title>
+    <title>Order Hub | USD-IQD Specialist</title>
     <style>
         :root {
             --bg: #0f172a;
@@ -46,7 +46,7 @@
             outline: none;
         }
 
-        /* Dashboard Styling */
+        /* Dashboards */
         .dashboard {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -137,7 +137,7 @@
         <input type="text" id="in-name" placeholder="Item Name">
         <div class="row">
             <input type="text" id="in-tag" placeholder="Tag (A1)">
-            <input type="number" id="in-rate" placeholder="IQD Rate (today)" value="1500">
+            <input type="number" id="in-rate" placeholder="IQD Rate" value="1500">
         </div>
         <div class="row">
             <input type="number" id="in-buy" placeholder="Buy Price ($ USD)">
@@ -230,25 +230,26 @@ const app = {
         });
 
         const netProfitIQD = totalSellIQD - totalCostInIQD;
-        // Calculation for Average Rate if needed, otherwise using 1500 for general conversion display
-        const netProfitUSD = totalBuyUSD > 0 ? netProfitIQD / 1500 : 0; 
+        // Use an average rate or the latest rate for the USD profit estimate
+        const currentRate = 1500; 
+        const netProfitUSD = netProfitIQD / currentRate;
 
         const progress = Math.min((filtered.length / this.goal) * 100, 100);
 
         document.getElementById('dashboard-root').innerHTML = `
             <div class="dashboard">
                 <div class="stat-card wide">
-                    <h3>Volume: ${filtered.length} / ${this.goal}</h3>
+                    <h3>Monthly Orders: ${filtered.length} / ${this.goal}</h3>
                     <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
                 </div>
                 <div class="stat-card">
-                    <h3>Total Cost</h3>
+                    <h3>Total Paid (USD)</h3>
                     <div class="val" style="color:var(--accent)">$${totalBuyUSD.toLocaleString()}</div>
-                    <span class="sub-val">${totalCostInIQD.toLocaleString()} IQD</span>
+                    <span class="sub-val">${totalCostInIQD.toLocaleString()} IQD Total</span>
                 </div>
                 <div class="stat-card">
                     <h3>Total Profit</h3>
-                    <div class="val" style="color:var(--profit)">+${netProfitIQD.toLocaleString()}</div>
+                    <div class="val" style="color:var(--profit)">+${netProfitIQD.toLocaleString()} IQD</div>
                     <span class="sub-val">≈ $${netProfitUSD.toFixed(2)} USD</span>
                 </div>
             </div>
