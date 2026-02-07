@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Order Hub | Pro</title>
+    <title>Order Hub | Large Preview</title>
     <style>
         :root {
             --bg: #0f172a;
@@ -76,9 +76,9 @@
             background: #0f172a;
             border: 1px solid #475569;
             color: white;
-            padding: 15px;
+            padding: 14px;
             border-radius: 12px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             width: 100%;
             box-sizing: border-box;
@@ -91,7 +91,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 900;
             color: var(--accent);
             padding: 5px;
@@ -113,21 +113,37 @@
 
         .list-item {
             background: var(--card);
-            padding: 18px;
+            padding: 15px;
             border-radius: 18px;
             margin-bottom: 12px;
             border-left: 6px solid var(--accent);
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 15px;
             align-items: center;
         }
 
-        .item-info b { font-size: 1.15rem; color: white; display: block; }
-        .item-info span { font-size: 0.85rem; color: var(--text-dim); font-weight: 600; }
+        .img-large { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 12px; 
+            object-fit: cover; 
+            border: 2px solid var(--accent);
+            background: #0f172a;
+        }
+
+        .item-content { display: flex; flex-direction: column; gap: 5px; width: 100%; }
+        .item-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        
+        .item-info b { font-size: 1.1rem; color: white; display: block; }
+        .item-info span { font-size: 0.75rem; color: var(--text-dim); font-weight: 600; }
         
         .item-money { text-align: right; }
-        .profit { color: var(--profit); font-weight: 900; font-size: 1.2rem; display: block; }
-        .cost-sub { font-size: 0.75rem; color: var(--text-dim); font-weight: 700; }
+        .profit { color: var(--profit); font-weight: 900; font-size: 1.1rem; display: block; }
+        .cost-sub { font-size: 0.7rem; color: var(--text-dim); font-weight: 700; }
+
+        .item-actions { display: flex; gap: 10px; align-items: center; margin-top: 5px; border-top: 1px solid #334155; padding-top: 8px; }
+        .action-btn { background: #334155; color: var(--accent); padding: 6px 10px; border-radius: 6px; text-decoration: none; font-size: 0.7rem; font-weight: bold; }
 
         .global-footer {
             position: fixed;
@@ -140,11 +156,10 @@
         }
 
         .footer-stats { display: flex; justify-content: space-around; margin-top: 10px; }
-        .footer-stats div { text-align: center; }
         .footer-stats b { font-size: 1.3rem; font-weight: 900; color: white; display: block; }
         .footer-stats span { font-size: 0.65rem; color: var(--accent); font-weight: 800; text-transform: uppercase; }
 
-        .btn-del { color: var(--danger); background: none; border: none; font-size: 1.5rem; margin-left: 10px; padding: 5px; }
+        .btn-del { color: var(--danger); background: none; border: none; font-size: 1.3rem; margin-left: auto; padding: 0; }
 
     </style>
 </head>
@@ -162,6 +177,12 @@
     
     <div class="input-panel">
         <input type="text" id="in-name" placeholder="Item Name">
+        <input type="url" id="in-link" placeholder="Product URL (🔗)">
+        
+        <div style="background:#0f172a; padding:10px; border-radius:12px; border:1px solid #475569;">
+            <label style="font-size:0.7rem; color:var(--accent); font-weight:900; display:block; margin-bottom:5px;">📸 ATTACH PHOTO:</label>
+            <input type="file" id="in-img" accept="image/*" style="padding:5px; font-size:0.8rem; border:none;">
+        </div>
         
         <div class="row">
             <input type="text" id="in-tag" placeholder="Tag (A1)">
@@ -175,7 +196,7 @@
 
         <div class="row">
             <input type="number" id="in-sell" placeholder="Sell Price" oninput="app.updateLive()">
-            <div id="live-sell" class="conv-box">Value: $0</div>
+            <div id="live-sell" class="conv-box">Value: $0.00</div>
         </div>
 
         <input type="date" id="in-oDate">
@@ -210,9 +231,7 @@ const app = {
         const buy = parseFloat(document.getElementById('in-buy').value) || 0;
         const sell = parseFloat(document.getElementById('in-sell').value) || 0;
         const rate = parseFloat(document.getElementById('in-rate').value) || 1500;
-
         document.getElementById('live-buy').innerText = `Cost: ${(buy * rate).toLocaleString()} IQD`;
-        
         if(this.mode === 'USD') {
             document.getElementById('live-sell').innerText = `Value: $${sell.toLocaleString()}`;
         } else {
@@ -220,13 +239,19 @@ const app = {
         }
     },
 
-    addOrder() {
+    async addOrder() {
         const name = document.getElementById('in-name').value;
         if (!name) return alert("Enter Name");
+
+        let imgData = "";
+        const imgFile = document.getElementById('in-img').files[0];
+        if (imgFile) imgData = await this.toBase64(imgFile);
 
         const order = {
             id: Date.now(),
             name: name,
+            link: document.getElementById('in-link').value || "",
+            img: imgData,
             tag: document.getElementById('in-tag').value || "A1",
             mode: this.mode,
             buyUSD: parseFloat(document.getElementById('in-buy').value) || 0,
@@ -237,10 +262,17 @@ const app = {
 
         this.orders.push(order);
         localStorage.setItem('smart_wallet_v4', JSON.stringify(this.orders));
-        ['in-name','in-buy','in-sell'].forEach(id => document.getElementById(id).value = '');
+        ['in-name','in-link','in-buy','in-sell','in-img'].forEach(id => document.getElementById(id).value = '');
         this.updateLive();
         this.render();
     },
+
+    toBase64: file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    }),
 
     delete(id) {
         if(confirm("Delete this?")) {
@@ -265,13 +297,20 @@ const app = {
             const p = (o.mode === 'USD') ? (o.sellVal - o.buyUSD) : (o.sellVal - (o.buyUSD * o.rate));
             return `
             <div class="list-item">
-                <div class="item-info"><b>${o.name}</b><span>#${o.tag} • ${o.date}</span></div>
-                <div style="display:flex; align-items:center;">
-                    <div class="item-money">
-                        <span class="profit">${o.mode==='USD'?'$':''}${p.toLocaleString()} ${o.mode==='IQD'?'IQD':''}</span>
-                        <span class="cost-sub">Cost: $${o.buyUSD} (${(o.buyUSD * o.rate).toLocaleString()} IQD)</span>
+                <img src="${o.img || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%231e293b%22/><text y=%2250%%22 x=%2250%%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%23475569%22>NO IMAGE</text></svg>'}" 
+                     class="img-large" onclick="if(this.src.startsWith('data:image/')) window.open(this.src)">
+                <div class="item-content">
+                    <div class="item-header">
+                        <div class="item-info"><b>${o.name}</b><span>#${o.tag} • ${o.date}</span></div>
+                        <div class="item-money">
+                            <span class="profit">${o.mode==='USD'?'$':''}${p.toLocaleString()} ${o.mode==='IQD'?'IQD':''}</span>
+                            <span class="cost-sub">Cost: $${o.buyUSD}</span>
+                        </div>
                     </div>
-                    <button class="btn-del" onclick="app.delete(${o.id})">✕</button>
+                    <div class="item-actions">
+                        ${o.link ? `<a href="${o.link}" target="_blank" class="action-btn">🔗 Link</a>` : '<span style="font-size:0.6rem;color:var(--text-dim)">NO LINK</span>'}
+                        <button class="btn-del" onclick="app.delete(${o.id})">✕</button>
+                    </div>
                 </div>
             </div>`;
         }).join('');
